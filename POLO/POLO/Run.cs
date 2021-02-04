@@ -9,15 +9,16 @@ namespace POLO
         static void Main(string[] args)
         {
             POLO polo = new POLO();
-            //string path = @"C:\Users\Thomas\Desktop\POLO\POLO FILES\Main.POLO";
+            //string path = @"C:\Users\Thomas\Desktop\POLO\POLO FILES\Main.p";
             Console.Write("Enter path for main POLO file:\n>>> ");
             string path = Console.ReadLine();
+            Console.Clear();
             if (!polo.validPath(path))
             {
                 Environment.Exit(0);
             }
             string file = File.ReadAllText(path);
-            List<char> command = polo.Command(path);
+            string command = polo.Command(file);
             int output = polo.ExecuteNumeric(command);
             Console.WriteLine(output);
             Console.ReadKey();

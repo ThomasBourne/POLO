@@ -15,64 +15,62 @@ namespace POLO
                 return true;
             return false;
         }
-        public List<char> Command(string file)
+        public string Command(string file)
         {
-            List<char> command = new List<char>();
-            char currentChar = 'd';
+            string command = "";
+            char currentChar = '-';
             int i = 0;
             while (currentChar != ';')
             {
                 currentChar = file[i];
-                if (currentChar == ' ')
-                { }
-                else
-                {
-                    command.Add(file[i]);
-                }
-                currentChar = file[i];
+                if (currentChar != ' ' && currentChar != ';')
+                    command += currentChar;
+                i++;
             }
             return command;
         }
-        public int ExecuteNumeric(List<char> command)
+        public int ExecuteNumeric(string command)
         {
             int? num1 = null;
             int? num2 = null;
-            for (int i = 0; i < command.Count; i++)
+            char symbol = 'a';
+            for (int i = 0; i < command.Length; i++)
             {
                 char focus = command[i];
                 if (int.TryParse(Convert.ToString(command[i]), out int asdasd))
                 {
-                    if (num1 == null)
+                    if(num1 == null)
                         num1 = int.Parse(Convert.ToString(command[i]));
                     else
                         num2 = int.Parse(Convert.ToString(command[i]));
                 }
                 else
                 {
-                    for (int j = 0; j < Store.mathsSymbols.Length; j++)
+                    symbol = focus;
+                }
+            }
+            for (int j = 0; j < Store.mathsSymbols.Length; j++)
+            {
+                if (Store.mathsSymbols[j] == symbol)
+                {
+                    if (symbol == ' ' || symbol == '\n') { }
+                    if (symbol == '+')
+                        return num1.Value + num2.Value;
+                    if (symbol == '-')
+                        return num1.Value - num2.Value;
+                    if (symbol == '*')
+                        return num1.Value * num2.Value;
+                    if (symbol == '/')
+                        return num1.Value / num2.Value;
+                    if (symbol == '%')
+                        return num1.Value % num2.Value;
+                    if (symbol == '^')
                     {
-                        if (Store.mathsSymbols[j] == focus)
+                        for (int x = 0; x < num2.Value - 1; x++)
                         {
-                            if (focus == ' ') { }
-                            if (focus == '+')
-                                return num1.Value + num2.Value;
-                            if (focus == '-')
-                                return num1.Value - num2.Value;
-                            if (focus == '*')
-                                return num1.Value * num2.Value;
-                            if (focus == '/')
-                                return num1.Value / num2.Value;
-                            if (focus == '%')
-                                return num1.Value % num2.Value;
-                            if (focus == '^')
-                            {
-                                for (int x = 0; x < num2.Value; x++)
-                                {
-                                    num1 *= num1;
-                                }
-                                return num1.Value;
-                            }
+                            num1 *= num1;
                         }
+                        return num1.Value;
                     }
                 }
             }
