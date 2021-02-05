@@ -14,12 +14,12 @@ namespace POLO
             string path = Console.ReadLine();
             Console.Clear();
             if (!polo.validPath(path))
-            {
                 Environment.Exit(0);
-            }
             string file = File.ReadAllText(path);
             string command = polo.Command(file);
-            int output = polo.ExecuteNumeric(command);
+            int? output = polo.ExecuteNumeric(command);
+            if (output == null)
+                Environment.Exit(0);
             Console.WriteLine(output);
             Console.ReadKey();
         }

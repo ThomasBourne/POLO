@@ -29,7 +29,7 @@ namespace POLO
             }
             return command;
         }
-        public int ExecuteNumeric(string command)
+        public int? ExecuteNumeric(string command)
         {
             int? num1 = null;
             int? num2 = null;
@@ -39,32 +39,70 @@ namespace POLO
                 char focus = command[i];
                 if (int.TryParse(Convert.ToString(command[i]), out int asdasd))
                 {
-                    if(num1 == null)
+                    if (num1 == null)
+                    {
                         num1 = int.Parse(Convert.ToString(command[i]));
+                        for (int f = i; f < command.Length; f++)
+                        {
+                            if (int.TryParse(Convert.ToString(command[i + 1]), out int qwer))
+                            {
+                                num1 = int.Parse(Convert.ToString(command[i + 1] + Convert.ToString(command[i])));
+                                i++;
+                            }
+                            else
+                                f = command.Length;
+                        }
+                        char[] invert = Convert.ToString(num1.Value).ToCharArray();
+                        Array.Reverse(invert);
+                        num1 = Convert.ToInt32(new string(invert));
+                    }
                     else
+                    {
                         num2 = int.Parse(Convert.ToString(command[i]));
+                        for (int f = i; f < command.Length - 1; f++)
+                        {
+                            if (int.TryParse(Convert.ToString(command[i + 1]), out int qwer))
+                            {
+                                num2 = int.Parse(Convert.ToString(command[i + 1] + Convert.ToString(command[i])));
+                                i++;
+                            }
+                            else
+                                f = command.Length;
+                        }
+                        char[] invert = Convert.ToString(num2.Value).ToCharArray();
+                        Array.Reverse(invert);
+                        num2 = Convert.ToInt32(new string(invert));
+                    }
                 }
                 else
                 {
-                    symbol = focus;
+                    for (int u = 0; u < Store.mathsSymbols.Length; u++)
+                    {
+                        if (Store.mathsSymbols[u] == focus)
+                            symbol = focus;
+                    }
                 }
             }
+            Console.WriteLine(command);
+            Console.WriteLine(num1);
+            Console.WriteLine(symbol);
+            Console.WriteLine(num2);
             for (int j = 0; j < Store.mathsSymbols.Length; j++)
             {
                 if (Store.mathsSymbols[j] == symbol)
                 {
                     if (symbol == ' ' || symbol == '\n') { }
-                    if (symbol == '+')
+                    else if (symbol == '+')
                         return num1.Value + num2.Value;
-                    if (symbol == '-')
+                    else if (symbol == '-')
                         return num1.Value - num2.Value;
-                    if (symbol == '*')
+                    else if (symbol == '*')
                         return num1.Value * num2.Value;
-                    if (symbol == '/')
+                    else if (symbol == '/')
                         return num1.Value / num2.Value;
-                    if (symbol == '%')
+                    else if (symbol == '%')
                         return num1.Value % num2.Value;
-                    if (symbol == '^')
+                    else if (symbol == '^')
                     {
                         for (int x = 0; x < num2.Value - 1; x++)
                         {
@@ -74,7 +112,8 @@ namespace POLO
                     }
                 }
             }
-            return 0;
+            Errors.NumericalError(command);
+            return null;
         }
     }
 }

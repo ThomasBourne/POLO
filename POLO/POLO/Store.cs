@@ -9,6 +9,6 @@ namespace POLO
     class Store
     {
         public static readonly string[] allowedTypes = { "polo", "POLO", "p", "pe" };
-        public static readonly char[] mathsSymbols = { '+', '-', '*', '/', '%', '^' };
+        public static readonly string mathsSymbols = "+-*/%^";
     }
 }
