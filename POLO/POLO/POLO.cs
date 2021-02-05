@@ -83,10 +83,12 @@ namespace POLO
                     }
                 }
             }
+            /*
             Console.WriteLine(command);
             Console.WriteLine(num1);
             Console.WriteLine(symbol);
             Console.WriteLine(num2);
+            */
             for (int j = 0; j < Store.mathsSymbols.Length; j++)
             {
                 if (Store.mathsSymbols[j] == symbol)

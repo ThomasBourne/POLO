@@ -8,7 +8,7 @@ namespace POLO
 {
     class Store
     {
-        public static readonly string[] allowedTypes = { "polo", "POLO", "p", "pe" };
+        public static readonly string[] allowedTypes = { "polo", "POLO", "p", "pf" };
         public static readonly string mathsSymbols = "+-*/%^";
     }
 }
