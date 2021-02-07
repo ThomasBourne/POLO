@@ -39,10 +39,6 @@ namespace POLO
             }
             Errors.InvalidFileExtension(path);
             return false;
-        }/*
-        public string[] brackets(string command)
-        {
-
-        } */
+        }
     }
 }

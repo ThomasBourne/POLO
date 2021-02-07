@@ -26,7 +26,7 @@ namespace POLO
                 while (currentChar != ';')
                 {
                     currentChar = file[i];
-                    if (currentChar != ' ' && currentChar != '\n')
+                    if (currentChar != ' ' && currentChar != '\n'&& currentChar != ';' )
                         command += currentChar;
                     i++;
                 }
@@ -38,93 +38,21 @@ namespace POLO
             }
             return ls;
         }
-        public int? ExecuteNumeric(string command)
+        public double? ExecuteNumeric(string command)
         {
-            int? num1 = null;
-            int? num2 = null;
-            char symbol = 'a';
-            for (int i = 0; i < command.Length; i++)
+            System.Data.DataTable table = new System.Data.DataTable();
+            try
             {
-                char focus = command[i];
-                if (int.TryParse(Convert.ToString(command[i]), out int asdasd))
-                {
-                    if (num1 == null)
-                    {
-                        num1 = int.Parse(Convert.ToString(command[i]));
-                        for (int f = i; f < command.Length; f++)
-                        {
-                            if (int.TryParse(Convert.ToString(command[i + 1]), out int qwer))
-                            {
-                                num1 = int.Parse(Convert.ToString(command[i + 1] + Convert.ToString(command[i])));
-                                i++;
-                            }
-                            else
-                                f = command.Length;
-                        }
-                        char[] invert = Convert.ToString(num1.Value).ToCharArray();
-                        Array.Reverse(invert);
-                        num1 = Convert.ToInt32(new string(invert));
-                    }
-                    else
-                    {
-                        num2 = int.Parse(Convert.ToString(command[i]));
-                        for (int f = i; f < command.Length - 1; f++)
-                        {
-                            if (int.TryParse(Convert.ToString(command[i + 1]), out int qwer))
-                            {
-                                num2 = int.Parse(Convert.ToString(command[i + 1] + Convert.ToString(command[i])));
-                                i++;
-                            }
-                            else
-                                f = command.Length;
-                        }
-                        char[] invert = Convert.ToString(num2.Value).ToCharArray();
-                        Array.Reverse(invert);
-                        num2 = Convert.ToInt32(new string(invert));
-                    }
-                }
-                else
-                {
-                    for (int u = 0; u < Store.mathsSymbols.Length; u++)
-                    {
-                        if (Store.mathsSymbols[u] == focus)
-                            symbol = focus;
-                    }
-                }
+                return Convert.ToDouble(table.Compute(command, String.Empty));
+
             }
-            /*
-            Console.WriteLine(command);
-            Console.WriteLine(num1);
-            Console.WriteLine(symbol);
-            Console.WriteLine(num2);
-            */
-            for (int j = 0; j < Store.mathsSymbols.Length; j++)
+            catch (System.Data.EvaluateException)
             {
-                if (Store.mathsSymbols[j] == symbol)
-                {
-                    if (symbol == ' ' || symbol == '\n') { }
-                    else if (symbol == '+')
-                        return num1.Value + num2.Value;
-                    else if (symbol == '-')
-                        return num1.Value - num2.Value;
-                    else if (symbol == '*')
-                        return num1.Value * num2.Value;
-                    else if (symbol == '/')
-                        return num1.Value / num2.Value;
-                    else if (symbol == '%')
-                        return num1.Value % num2.Value;
-                    else if (symbol == '^')
-                    {
-                        for (int x = 0; x < num2.Value - 1; x++)
-                        {
-                            num1 *= num1;
-                        }
-                        return num1.Value;
-                    }
-                }
+                Console.WriteLine($"At the moment ^ does not work");
+                Errors.NumericalError(command);
+                return null;
             }
-            Errors.NumericalError(command);
-            return null;
+
         }
         public string RemovePreviousCommand(string str)
         {
